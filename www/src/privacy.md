@@ -1,271 +1,164 @@
 
-# Privacy Policy for {{ config.mail_domain }} 
 
-{% if config.mail_domain == "nine.testrun.org" %}
-Welcome to `{{config.mail_domain}}`, the default chatmail onboarding server for Delta Chat users. 
-It is operated on the side by a small sysops team
-on a voluntary basis.
-See [other chatmail servers](https://delta.chat/en/chatmail) for alternative server operators. 
-{% endif %}
+<div class="wire-bg">
+    <svg viewBox="0 0 1440 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M-20,100 C360,320 1080,280 1460,120"
+              stroke="#e03131" stroke-width="16" fill="none" stroke-linecap="round" opacity="0.7"/>
+        <path d="M-20,160 C360,40 1080,380 1460,200"
+              stroke="#1971c2" stroke-width="16" fill="none" stroke-linecap="round" opacity="0.7"/>
+        <path d="M-20,240 C360,360 1080,80 1460,280"
+              stroke="#2f9e44" stroke-width="16" fill="none" stroke-linecap="round" opacity="0.7"/>
+    </svg>
+</div>
 
+<div class="layout">
 
-## Summary: No personal data asked or collected 
+<div class="card">
+<ul id="menu">
+    <li id="domain"><a href="index.html">cm1.wwire.su</a></li>
+    <li><a href="index.html">Главная</a></li>
+    <li><a href="info.html">О сервере</a></li>
+    <li class="active"><a href="privacy.html">Приватность</a></li>
+    <li><a href="https://github.com/deltachat/chatmail">Исходный код</a></li>
+</ul>
+</div>
 
-This chatmail server neither asks for nor retains personal information. 
-Chatmail servers exist to reliably transmit (store and deliver) end-to-end encrypted messages
-between user's devices running the Delta Chat messenger app. 
-Technically, you may think of a Chatmail server as 
-an end-to-end encrypted "messaging router" at Internet-scale. 
+<div class="card">
+<div class="section-title">Приватность</div>
+<div class="section-sub">cm1.wwire.su не собирает персональные данные</div>
 
-A chatmail server is very unlike classic e-mail servers (for example Google Mail servers)
-that ask for personal data and permanently store messages. 
-A chatmail server behaves more like the Signal messaging server 
-but does not know about phone numbers and securely and automatically interoperates 
-with other chatmail and classic e-mail servers. 
+<div class="privacy-summary">
+  <div class="privacy-item">
+    <div class="icon">🔐</div>
+    <div class="body"><strong>Нет личных данных</strong>Не запрашиваются и не хранятся при регистрации</div>
+  </div>
+  <div class="privacy-item">
+    <div class="icon">🌍</div>
+    <div class="body"><strong>Без IP-логов</strong>IP-адреса не привязываются к аккаунтам</div>
+  </div>
+  <div class="privacy-item">
+    <div class="icon">🔒</div>
+    <div class="body"><strong>Сквозное шифрование</strong>Сообщения зашифрованы, сервер не имеет к ним доступа</div>
+  </div>
+  <div class="privacy-item">
+    <div class="icon">🗑️</div>
+    <div class="body"><strong>Автоудаление</strong>Сообщения удаляются через 30 дней</div>
+  </div>
+  <div class="privacy-item">
+    <div class="icon">📁</div>
+    <div class="body"><strong>Минимум метаданных</strong>Обрабатывается только необходимое для доставки</div>
+  </div>
+  <div class="privacy-item">
+    <div class="icon">📜</div>
+    <div class="body"><strong>Соответствие GDPR</strong>Обработка данных соответствует ст. 6 GDPR</div>
+  </div>
+</div>
 
-Unlike classic e-mail servers, this chatmail server 
+<details class="privacy-full">
+<summary>📜 Полный текст политики обработки данных</summary>
+<div class="inner">
 
-- unconditionally removes messages after {{ config.delete_mails_after }} days,
+## 1. Контактная информация
 
-- prohibits sending out un-encrypted messages,
+Ответственный за обработку ваших персональных данных:
 
-- does not store Internet addresses ("IP addresses"), 
-
-- does not process IP addresses in relation to email addresses.
-
-Due to the resulting lack of personal data processing
-this chatmail server may not require a privacy policy.
-
-Nevertheless, we provide legal details below to make life easier
-for data protection specialists and lawyers scrutinizing chatmail operations.
-
-
-
-## 1. Name and contact information 
-
-Responsible for the processing of your personal data is:
 ```
-{{ config.privacy_postal }}
-```
-
-E-mail: {{ config.privacy_mail }}
-
-We have appointed a data protection officer:
 
 ```
-{{ config.privacy_pdo }}
+
+Эл. почта: 
+
+Назначен сотрудник по защите данных:
+
 ```
 
-## 2. Processing when using chat e-mail services
+```
 
-We provide services optimized for the use from [Delta Chat](https://delta.chat) apps
-and process only the data necessary
-for the setup and technical execution of message delivery.
-The purpose of the processing is that users can
-read, write, manage, delete, send, and receive chat messages.
-For this purpose,
-we operate server-side software
-that enables us to send and receive messages.
+## 2. Обработка при использовании почтовых услуг
 
-We process the following data and details:
+Мы предоставляем услуги, оптимизированные для использования из приложений Delta Chat, и обрабатываем только данные, необходимые для настройки и технического выполнения доставки сообщений. Цель обработки — чтобы пользователи могли читать, писать, управлять, удалять, отправлять и получать чат-сообщения.
 
-- Outgoing and incoming messages (SMTP) are stored for transit
-  on behalf of their users until the message can be delivered.
+Мы обрабатываем следующие данные:
 
-- E-Mail-Messages are stored for the recipient and made accessible via IMAP protocols,
-  until explicitly deleted by the user or until a fixed time period is exceeded,
-  (*usually 4-8 weeks*).
+- Исходящие и входящие сообщения (SMTP) временно хранятся для передачи от имени пользователей, пока сообщение не будет доставлено.
+- Сообщения хранятся для получателя и доступны через протокол IMAP до явного удаления пользователем или до истечения установленного срока (обычно 4–8 недель).
+- Доступ к IMAP и SMTP защищён паролем, уникальным для каждого аккаунта.
+- Пользователи могут получить или удалить все сохранённые сообщения без участия оператора, используя стандартные IMAP-клиенты.
+- Пользователи могут подключиться к «relay-сервису реального времени» для установки Peer-to-Peer соединения между устройствами, что позволяет отправлять и получать эфемерные сообщения, которые никогда не сохраняются на сервере, даже в зашифрованном виде.
 
-- IMAP and SMTP protocols are password protected with unique credentials for each account.
+### 2.1 Создание аккаунта
 
-- Users can retrieve or delete all stored messages
-  without intervention from the operators using standard IMAP client tools.
+Создание аккаунта происходит одним из двух способов:
 
-- Users can connect to a "realtime relay service"
-  to establish Peer-to-Peer connection between user devices,
-  allowing them to send and retrieve ephemeral messages
-  which are never stored on the chatmail server, also not in encrypted form.
+- по QR-токену приглашения, который сканируется приложением Delta Chat, после чего аккаунт создаётся.
+- путём создания аккаунта в Delta Chat с регистрацией на почтовом сервере cm1.wwire.su.
 
+В любом случае мы обрабатываем только что созданный email-адрес. Номера телефонов, другие email-адреса или иные идентифицирующие данные не требуются. Правовым основанием обработки является ст. 6 (1) lit. b GDPR, так как, пользуясь нашими услугами, вы заключаете с нами договор об использовании.
 
-### 2.1 Account setup
+### 2.2 Обработка сообщений
 
-Creating an account happens in one of two ways on our mail servers: 
+Кроме того, мы обрабатываем данные для поддержания работоспособности серверной инфраструктуры для целей отправки электронной почты и предотвращения злоупотреблений.
 
-- with a QR invitation token 
-  which is scanned using the Delta Chat app
-  and then the account is created.
+- Для этого необходимо обрабатывать содержимое и/или метаданные (например, заголовки писем и SMTP-сессии) передаваемых сообщений.
+- Мы храним логи передаваемых сообщений ограниченное время. Эти логи используются для диагностики проблем с доставкой и ошибок программного обеспечения.
 
-- by letting Delta Chat otherwise create an account 
-  and register it with a {{ config.mail_domain }} mail server. 
+Также мы обрабатываем данные для защиты систем от чрезмерного использования. Поэтому применяются ограничения:
 
-In either case, we process the newly created email address.
-No phone numbers,
-other email addresses,
-or other identifiable data
-is currently required.
-The legal basis for the processing is
-Art. 6 (1) lit. b GDPR,
-as you have a usage contract with us
-by using our services.
+- лимиты частоты отправки
+- лимиты хранилища
+- лимиты размера сообщений
+- любые другие ограничения, необходимые для нормального функционирования сервера и предотвращения злоупотреблений.
 
-### 2.2 Processing of E-Mail-Messages
+Обработка и использование указанных выше данных осуществляется для предоставления услуги. Обработка данных необходима для использования наших услуг, поэтому правовым основанием является ст. 6 (1) lit. b GDPR. Правовым основанием для обработки данных в целях безопасности и предотвращения злоупотреблений является ст. 6 (1) lit. f GDPR. Мы не используем собранные данные для составления выводов о вашей личности.
 
-In addition,
-we will process data
-to keep the server infrastructure operational
-for purposes of e-mail dispatch
-and abuse prevention.
+## 3. Обработка при использовании нашего веб-сайта
 
-- Therefore,
-  it is necessary to process the content and/or metadata
-  (e.g., headers of the email as well as smtp chatter)
-  of E-Mail-Messages in transit. 
+При посещении нашего веб-сайта ваш браузер автоматически передаёт информацию серверу. Эта информация временно сохраняется в так называемом лог-файле. Следующая информация собирается и хранится до автоматического удаления (обычно 7 дней):
 
-- We will keep logs of messages in transit for a limited time.
-  These logs are used to debug delivery problems and software bugs.
+- используемый тип браузера
+- используемая операционная система
+- дата и время доступа, а также страна происхождения и IP-адрес
+- имя запрошенного файла или HTTP-ресурса
+- объём переданных данных
+- статус доступа (файл передан, файл не найден и т.д.)
+- страница, с которой был запрошен файл
 
-In addition,
-we process data to protect the systems from excessive use.
-Therefore, limits are enforced:
+Этот веб-сайт размещён у внешнего поставщика услуг (хостинг-провайдера). Личные данные, собранные на этом сайте, хранятся на серверах хостинг-провайдера. Наш хостинг-провайдер обрабатывает ваши данные только в объёме, необходимом для выполнения своих обязательств по нашему поручению. Для обеспечения обработки данных в соответствии с требованиями защиты данных мы заключили с хостинг-провайдером договор на обработку данных.
 
-- rate limits
+Вышеуказанные данные обрабатываются нами для следующих целей:
 
-- storage limits
+- обеспечение надёжного соединения с веб-сайтом
+- обеспечение удобного использования нашего веб-сайта
+- проверка и обеспечение системной безопасности и стабильности
+- для других административных целей
 
-- message size limits
+Правовым основанием для обработки данных является ст. 6 (1) lit. f GDPR.
 
-- any other limit necessary for the whole server to function in a healthy way
-  and to prevent abuse.
+## 4. Передача данных
 
-The processing and use of the above permissions
-are performed to provide the service.
-The data processing is necessary for the use of our services,
-therefore the legal basis of the processing is
-Art. 6 (1) lit. b GDPR,
-as you have a usage contract with us
-by using our services.
-The legal basis for the data processing
-for the purposes of security and abuse prevention is
-Art. 6 (1) lit. f GDPR.
-Our legitimate interest results
-from the aforementioned purposes.
-We will not use the collected data
-for the purpose of drawing conclusions
-about your person.
+Мы не храним персональные данные, за исключением сообщений электронной почты, ожидающих доставки, которые могут содержать персональные данные. Любые такие остаточные персональные данные не передаются третьим лицам, за исключением следующих случаев:
 
+a) вы дали явное согласие в соответствии со ст. 6 (1) lit. a GDPR
+b) раскрытие необходимо для предъявления, осуществления или защиты правовых требований в соответствии со ст. 6 (1) lit. f GDPR, и нет оснований полагать, что вы имеете преобладающий интерес в неразглашении ваших данных
+c) при наличии законного обязательства по раскрытию ваших данных в соответствии со ст. 6 (1) lit. c GDPR
+d) это юридически допустимо и необходимо в соответствии со ст. 6 (1) lit. b GDPR для обработки договорных отношений с вами
+e) это осуществляется поставщиком услуг, действующим от нашего имени и по нашему исключительному поручению, которого мы тщательно выбрали (ст. 28 (2) GDPR) и с которым заключили соответствующий договор на обработку данных (ст. 28 (3) GDPR)
 
-## 3. Processing when using our Website
+## 5. Права субъекта данных
 
-When you visit our website,
-the browser used on your end device
-automatically sends information to the server of our website.
-This information is temporarily stored in a so-called log file.
-The following information is collected and stored
-until it is automatically deleted
-(*usually 7 days*):
+Права вытекают из статей 12–23 GDPR. Поскольку на наших серверах не хранятся персональные данные, даже в зашифрованном виде, необходимость в предоставлении информации о них или возможных возражениях отсутствует. Удаление может быть произведено непосредственно в приложении Delta Chat.
 
-- used type of browser,
+Если у вас есть вопросы или жалобы, пожалуйста, свяжитесь с нами по электронной почте: 
 
-- used operating system, 
+Как правило, вы можете обратиться в надзорный орган по вашему обычному месту жительства, работы или по нашему юридическому адресу. Надзорный орган, ответственный за наше место деятельности: ``.
 
-- access date and time as well as
+## 6. Действие политики
 
-- country of origin and IP address, 
+Настоящая политика конфиденциальности действует с *октября 2024 года*. В связи с дальнейшим развитием наших услуг или изменением законодательных или официальных требований может потребоваться периодически пересматривать данную политику.
 
-- the requested file name or HTTP resource,
+</div>
+</details>
+</div>
 
-- the amount of data transferred,
-
-- the access status (file transferred, file not found, etc.) and
-
-- the page from which the file was requested.
-
-This website is hosted by an external service provider (hoster).
-The personal data collected on this website is stored
-on the hoster's servers.
-Our hoster will process your data
-only to the extent necessary to fulfill its obligations
-to perform under our instructions.
-In order to ensure data protection-compliant processing,
-we have concluded a data processing agreement with our hoster.
-
-The aforementioned data is processed by us for the following purposes:  
-
-- Ensuring a reliable connection setup of the website,
-
-- ensuring a convenient use of our website,
-
-- checking and ensuring system security and stability, and
-
-- for other administrative purposes.
-
-The legal basis for the data processing is
-Art. 6 (1) lit. f GDPR.
-Our legitimate interest results
-from the aforementioned purposes of data collection.
-We will not use the collected data
-for the purpose of drawing conclusions about your person.
-
-## 4. Transfer of Data
-
-We do not retain any personal data but e-mail messages waiting to be delivered 
-may contain personal data.
-Any such residual personal data will not be transferred to third parties
-for purposes other than those listed below:
-
-a) you have given your express consent
-in accordance with Art. 6 para. 1 sentence 1 lit. a GDPR,  
-
-b) the disclosure is necessary for the assertion, exercise or defence of legal claims
-pursuant to Art. 6 (1) sentence 1 lit. f GDPR
-and there is no reason to assume that you have
-an overriding interest worthy of protection
-in the non-disclosure of your data,  
-
-c) in the event that there is a legal obligation to disclose your data
-pursuant to Art. 6 para. 1 sentence 1 lit. c GDPR,
-as well as  
-
-d) this is legally permissible and necessary
-in accordance with Art. 6 Para. 1 S. 1 lit. b GDPR
-for the processing of contractual relationships with you,  
-
-e) this is carried out by a service provider
-acting on our behalf and on our exclusive instructions,
-whom we have carefully selected (Art. 28 (1) GDPR)
-and with whom we have concluded a corresponding contract on commissioned processing (Art. 28 (3) GDPR),
-which obliges our contractor,
-among other things,
-to implement appropriate security measures
-and grants us comprehensive control powers.
-
-## 5. Rights of the data subject
-
-The rights arise from Articles 12 to 23 GDPR.
-Since no personal data is stored on our servers,
-even in encrypted form,
-there is no need to provide information
-on these or possible objections.
-A deletion can be made
-directly in the Delta Chat email messenger.
-
-If you have any questions or complaints, 
-please feel free to contact us by email:  
-{{ config.privacy_mail }}
-
-As a rule, you can contact the supervisory authority of your usual place of residence
-or workplace
-or our registered office for this purpose.
-The supervisory authority responsible for our place of business
-is the `{{ config.privacy_supervisor }}`.
-
-
-## 6. Validity of this privacy policy 
-
-This data protection declaration is valid
-as of *October 2024*.
-Due to the further development of our service and offers
-or due to changed legal or official requirements,
-it may become necessary to revise this data protection declaration from time to time.
-
+</div>
 

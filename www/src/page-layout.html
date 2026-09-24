@@ -7,19 +7,18 @@
     {% endif %}
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <title>{{ config.mail_domain }} {{ pagename }}</title>
+    <meta name="description" content="Chatmail relay {{ config.mail_domain }} — зарегистрируй профиль для защищённого общения в Delta Chat">
+    <meta property="og:title" content="{{ config.mail_domain }}">
+    <meta property="og:description" content="Зарегистрируй профиль на {{ config.mail_domain }} для защищённого общения в Delta Chat">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://{{ config.mail_domain }}/">
     <link rel="stylesheet" href="./main.css">
-    <link rel="icon" href="/logo.svg">
-    <link rel=”mask-icon” href=”/logo.svg” color=”#000000">
+    <link rel="icon" href="/favicon.ico" sizes="32x32">
+    <link rel="icon" href="/logo.svg" type="image/svg+xml">
+    <link rel="mask-icon" href="/logo.svg" color="#000000">
+    <link rel="manifest" href="manifest.json">
 </head>
 <body>
-
-<ul id="menu">
-    <li><a href="index.html">home</a></li>
-    <li><a href="info.html">info</a></li>
-    <li><a href="privacy.html">privacy</a></li>
-    <li><a href="https://github.com/deltachat/chatmail">public code ↗</a></li>
-    <li id="domain"><a href="index.html">{{ config.mail_domain }}</a></li>
-</ul>
 
 {{ markdown_html }}
 

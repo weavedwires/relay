@@ -1,43 +1,91 @@
 
-## More information 
 
-{{ config.mail_domain }} provides a low-maintenance, resource efficient and 
-interoperable e-mail service for everyone. What's behind a `chatmail` is 
-effectively a normal e-mail address just like any other but optimized 
-for the usage in chats, especially DeltaChat.
+<div class="wire-bg">
+    <svg viewBox="0 0 1440 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M-20,100 C360,320 1080,280 1460,120"
+              stroke="#e03131" stroke-width="16" fill="none" stroke-linecap="round" opacity="0.7"/>
+        <path d="M-20,160 C360,40 1080,380 1460,200"
+              stroke="#1971c2" stroke-width="16" fill="none" stroke-linecap="round" opacity="0.7"/>
+        <path d="M-20,240 C360,360 1080,80 1460,280"
+              stroke="#2f9e44" stroke-width="16" fill="none" stroke-linecap="round" opacity="0.7"/>
+    </svg>
+</div>
 
+<div class="layout">
 
-### Rate and storage limits 
+<div class="card">
+<ul id="menu">
+    <li id="domain"><a href="index.html">cm1.wwire.su</a></li>
+    <li><a href="index.html">Главная</a></li>
+    <li class="active"><a href="info.html">О сервере</a></li>
+    <li><a href="privacy.html">Приватность</a></li>
+    <li><a href="https://github.com/deltachat/chatmail">Исходный код</a></li>
+</ul>
+</div>
 
-- Un-encrypted messages are blocked to recipients outside
-  {{config.mail_domain}} but setting up contact via [QR invite codes](https://delta.chat/en/help#howtoe2ee) 
-  allows your messages to pass freely to any outside recipients.
+<div class="card">
+<div class="section-title">Параметры сервера</div>
+<div class="section-sub">Лимиты и правила cm1.wwire.su</div>
 
-- You may send up to {{ config.max_user_send_per_minute }} messages per minute.
+<div class="stat-grid">
+  <div class="stat-card">
+    <div class="num">180</div>
+    <div class="label">Сообщений в минуту</div>
+  </div>
+  <div class="stat-card">
+    <div class="num">8</div>
+    <div class="label">ГБ хранилища</div>
+  </div>
+  <div class="stat-card">
+    <div class="num">300</div>
+    <div class="label">МБ максимальный размер сообщения</div>
+  </div>
+  <div class="stat-card">
+    <div class="num">90</div>
+    <div class="label">Дней до удаления<br>неактивного профиля</div>
+  </div>
+</div>
 
-- You can store up to [{{ config.max_mailbox_size }} messages on the server](https://delta.chat/en/help#what-happens-if-i-turn-on-delete-old-messages-from-server).
+<div class="feature-card">
+  <div class="icon">🔒</div>
+  <div class="body">
+    <strong>Сквозное шифрование</strong>
+    Незашифрованные сообщения блокируются. Проходят только end-to-end зашифрованные.
+  </div>
+</div>
 
-- Messages are unconditionally removed latest {{ config.delete_mails_after }} days after arriving on the server.
-  Earlier, if storage may exceed otherwise.
+<div class="feature-card">
+  <div class="icon">📦</div>
+  <div class="body">
+    <strong>Лимит хранилища</strong>
+    До 8192 МБ на профиль. Старые сообщения удаляются автоматически.
+  </div>
+</div>
 
+<div class="feature-card">
+  <div class="icon">🗑️</div>
+  <div class="body">
+    <strong>Автоудаление</strong>
+    Сообщения удаляются через 30 дней. Крупные (&gt;200 КБ) — через 5 дней.
+  </div>
+</div>
 
-### <a name="account-deletion"></a> Account deletion 
+<div class="feature-card">
+  <div class="icon">👤</div>
+  <div class="body">
+    <strong>Удаление профиля</strong>
+    Удали cm1.wwire.su из Delta Chat — профиль и данные удалятся через 90 дней.</a>
+  </div>
+</div>
 
-If you remove a {{ config.mail_domain }} profile from within the Delta Chat app, 
-then the according account on the server, along with all associated data,
-is automatically deleted {{ config.delete_inactive_users_after }} days afterwards. 
+<div class="feature-card">
+  <div class="icon">💚</div>
+  <div class="body">
+    <strong>Открытый исходный код</strong>
+    Сервер работает на <a href="https://github.com/deltachat/chatmail">открытом ПО</a>. Каждый может проверить и внести вклад.
+  </div>
+</div>
+</div>
 
-If you use multiple devices 
-then you need to remove the according chat profile from each device
-in order for all account data to be removed on the server side. 
+</div>
 
-If you have any further questions or requests regarding account deletion
-please send a message from your account to {{ config.privacy_mail }}. 
-
-
-### Who are the operators? Which software is running? 
-
-This chatmail provider is run by a small voluntary group of devs and sysadmins,
-who [publically develop chatmail provider setups](https://github.com/deltachat/chatmail).
-Chatmail setups aim to be very low-maintenance, resource efficient and 
-interoperable with any other standards-compliant e-mail service. 

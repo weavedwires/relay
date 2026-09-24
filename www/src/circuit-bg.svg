@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+  <defs>
+    <pattern id="pcb" x="0" y="0" width="400" height="400" patternUnits="userSpaceOnUse">
+      <!-- Dark PCB base -->
+      <rect width="400" height="400" fill="#0a0e14"/>
+
+      <!-- === Copper traces — wide, 90° bends === -->
+      <g fill="none" stroke-linecap="square" stroke-linejoin="miter">
+
+        <!-- Row 1 traces -->
+        <!-- 1: left → right, then down -->
+        <path d="M0 40 h80 v60 h120" stroke="#1a3a2a" stroke-width="7"/>
+        <path d="M0 40 h80 v60 h120" stroke="#2d8a4e" stroke-width="3"/>
+
+        <!-- 2: right → left, then down -->
+        <path d="M400 80 h-100 v40 h-80" stroke="#1a3a2a" stroke-width="7"/>
+        <path d="M400 80 h-100 v40 h-80" stroke="#2d8a4e" stroke-width="3"/>
+
+        <!-- 3: long horizontal across top -->
+        <path d="M180 0 v30 h120 v30" stroke="#1a3a2a" stroke-width="7"/>
+        <path d="M180 0 v30 h120 v30" stroke="#2d8a4e" stroke-width="3"/>
+
+        <!-- Row 2 traces -->
+        <!-- 4: left → right, bend down -->
+        <path d="M0 160 h60 v40 h60" stroke="#1a3a2a" stroke-width="7"/>
+        <path d="M0 160 h60 v40 h60" stroke="#2d8a4e" stroke-width="3"/>
+
+        <!-- 5: vertical from top, bend right -->
+        <path d="M120 120 v60 h40" stroke="#1a3a2a" stroke-width="7"/>
+        <path d="M120 120 v60 h40" stroke="#2d8a4e" stroke-width="3"/>
+
+        <!-- 6: right side, bend down -->
+        <path d="M400 160 h-60 v60 h-60" stroke="#1a3a2a" stroke-width="7"/>
+        <path d="M400 160 h-60 v60 h-60" stroke="#2d8a4e" stroke-width="3"/>
+
+        <!-- 7: center, bend right then down -->
+        <path d="M240 120 v80 h60" stroke="#1a3a2a" stroke-width="7"/>
+        <path d="M240 120 v80 h60" stroke="#2d8a4e" stroke-width="3"/>
+
+        <!-- 8: wide u-shape -->
+        <path d="M60 200 h80 v60 h40" stroke="#1a3a2a" stroke-width="7"/>
+        <path d="M60 200 h80 v60 h40" stroke="#2d8a4e" stroke-width="3"/>
+
+        <!-- Row 3 traces -->
+        <!-- 9: left → right mid -->
+        <path d="M0 280 h60 v40 h120" stroke="#1a3a2a" stroke-width="7"/>
+        <path d="M0 280 h60 v40 h120" stroke="#2d8a4e" stroke-width="3"/>
+
+        <!-- 10: zigzag -->
+        <path d="M140 240 h40 v60 h60" stroke="#1a3a2a" stroke-width="7"/>
+        <path d="M140 240 h40 v60 h60" stroke="#2d8a4e" stroke-width="3"/>
+
+        <!-- 11: right side zigzag -->
+        <path d="M400 280 h-60 v-40 h-60" stroke="#1a3a2a" stroke-width="7"/>
+        <path d="M400 280 h-60 v-40 h-60" stroke="#2d8a4e" stroke-width="3"/>
+
+        <!-- 12: bottom u-shape -->
+        <path d="M80 320 h80 v40 h60" stroke="#1a3a2a" stroke-width="7"/>
+        <path d="M80 320 h80 v40 h60" stroke="#2d8a4e" stroke-width="3"/>
+
+        <!-- 13: bottom right complex -->
+        <path d="M300 320 v-40 h60 v40" stroke="#1a3a2a" stroke-width="7"/>
+        <path d="M300 320 v-40 h60 v40" stroke="#2d8a4e" stroke-width="3"/>
+
+        <!-- 14: bottom edge -->
+        <path d="M0 380 h120 v20 h-80" stroke="#1a3a2a" stroke-width="7"/>
+        <path d="M0 380 h120 v20 h-80" stroke="#2d8a4e" stroke-width="3"/>
+
+        <!-- Vias (solder points) -->
+        <!-- Green outer ring, gold/bare copper center -->
+        <g>
+          <circle cx="80" cy="100" r="8" fill="#1a3a2a"/>
+          <circle cx="80" cy="100" r="5" fill="#c8a44e"/>
+          <circle cx="200" cy="100" r="8" fill="#1a3a2a"/>
+          <circle cx="200" cy="100" r="5" fill="#c8a44e"/>
+          <circle cx="300" cy="80" r="8" fill="#1a3a2a"/>
+          <circle cx="300" cy="80" r="5" fill="#c8a44e"/>
+          <circle cx="120" cy="140" r="8" fill="#1a3a2a"/>
+          <circle cx="120" cy="140" r="5" fill="#c8a44e"/>
+          <circle cx="60" cy="200" r="8" fill="#1a3a2a"/>
+          <circle cx="60" cy="200" r="5" fill="#c8a44e"/>
+          <circle cx="120" cy="200" r="8" fill="#1a3a2a"/>
+          <circle cx="120" cy="200" r="5" fill="#c8a44e"/>
+          <circle cx="140" cy="300" r="8" fill="#1a3a2a"/>
+          <circle cx="140" cy="300" r="5" fill="#c8a44e"/>
+          <circle cx="240" cy="200" r="8" fill="#1a3a2a"/>
+          <circle cx="240" cy="200" r="5" fill="#c8a44e"/>
+          <circle cx="340" cy="280" r="8" fill="#1a3a2a"/>
+          <circle cx="340" cy="280" r="5" fill="#c8a44e"/>
+          <circle cx="180" cy="360" r="8" fill="#1a3a2a"/>
+          <circle cx="180" cy="360" r="5" fill="#c8a44e"/>
+        </g>
+
+      </g>
+    </pattern>
+  </defs>
+
+  <!-- Fill whole viewport with the pattern -->
+  <rect width="100%" height="100%" fill="url(#pcb)"/>
+
+  <!-- Subtle gradient overlay to prevent pattern from being too stark -->
+  <radialGradient id="vignette" cx="50%" cy="50%" r="70%">
+    <stop offset="0%" stop-color="#000" stop-opacity="0.3"/>
+    <stop offset="100%" stop-color="#000" stop-opacity="0.6"/>
+  </radialGradient>
+  <rect width="100%" height="100%" fill="url(#vignette)"/>
+</svg>
