@@ -19,8 +19,10 @@ You will need the following:
    1GB RAM, one CPU, and perhaps 10GB storage for a few thousand active
    chatmail addresses.
 
--  A Linux or Unix **build machine** with key-based SSH access to the root
-   user of the deployment server.
+-  A Linux or Unix **build machine** with key-based SSH access to the
+   deployment server.  Deployment uses ``root`` by default; to use a
+   non-root user instead, set ``ssh_user`` in ``chatmail.ini`` and make
+   sure that user has passwordless sudo.
    You must add a passphrase-protected private key to your local ssh-agent because you
    can’t type in your passphrase during deployment.
    (An ed25519 private key is required due to an `upstream bug in
@@ -59,7 +61,7 @@ steps. Please substitute it with your own domain.
       are not needed for such domains.
 
 2. On your local PC, clone the repository and bootstrap the Python
-   virtualenv.
+   environment with `uv <https://docs.astral.sh/uv/getting-started/installation/>`_.
 
    ::
 
@@ -84,11 +86,12 @@ steps. Please substitute it with your own domain.
    See the :doc:`overview`
    for details on certificate provisioning.
 
-4. Verify that SSH root login to the deployment server server works:
+4. Verify that SSH login to the deployment server works for the configured
+   user (``root`` by default):
 
    ::
 
-       ssh root@chat.example.org  # <-- use your domain
+       ssh root@chat.example.org  # <-- use your domain and user
 
 5. From your local build machine, setup and configure the remote deployment server:
 
@@ -100,6 +103,42 @@ steps. Please substitute it with your own domain.
    If DNS records are missing, it will recommend which you should
    configure at your DNS provider (it can take some time until they are
    public).
+
+
+
+Deploying as a non-root user
+----------------------------
+
+By default, ``cmdeploy`` connects to the deployment server as ``root``.
+To use a non-root user instead, create a user on the server with
+passwordless sudo and set its name in ``chatmail.ini``:
+
+::
+
+    ssh_user = deploy
+
+Deployment runs non-interactively, so the user must be able to run sudo
+without a password prompt.  On the deployment server, for example:
+
+::
+
+    sudo useradd --create-home --shell /bin/bash deploy
+    sudo usermod -aG sudo deploy
+    echo 'deploy ALL=(ALL) NOPASSWD:ALL' | sudo tee /etc/sudoers.d/chatmail-deploy
+    sudo chmod 440 /etc/sudoers.d/chatmail-deploy
+
+Passwordless sudo is effectively root access, so use a dedicated deployment
+user and a key that is only used for deployments.
+
+Then verify that non-interactive sudo works for that user:
+
+::
+
+    ssh deploy@chat.example.org sudo -n true
+
+The ``ssh_user`` setting applies to ``cmdeploy run``, ``dns``, ``status``
+and ``test``.  You can also pass an explicit ``user@host`` target with
+``--ssh-host``; the user in that target takes precedence.
 
 
 
@@ -194,7 +233,7 @@ creating addresses, login with ssh to the deployment machine and run:
 
 ::
 
-       touch /etc/chatmail-nocreate
+       sudo touch /etc/chatmail-nocreate
 
 Chatmail address creation will be denied while this file is present.
 

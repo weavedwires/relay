@@ -24,6 +24,15 @@ Preliminary notes and assumptions
 - The new site’s IP addresses are ``$NEW_IP4`` and ``$NEW_IPV6``.
 
 
+.. note::
+
+   The commands below use ``root``, which is the default deployment user.
+   If you configured a non-root ``ssh_user`` in ``chatmail.ini``, replace
+   ``root`` with that user and prefix privileged commands with ``sudo``.
+   For example, use ``ssh -A deploy@$OLD_IP4``, ``sudo tar`` on both ends,
+   and ``rsync --rsync-path="sudo rsync"`` when copying mailboxes.
+
+
 The six steps to migrate
 ------------------------
 
