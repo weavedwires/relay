@@ -2,6 +2,5 @@
 #
 # Wrapper for building the docs
 set -e
-. venv/bin/activate
-cd doc/
-make html
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+exec uv run --project "$ROOT" --group docs make -C "$ROOT/doc" html

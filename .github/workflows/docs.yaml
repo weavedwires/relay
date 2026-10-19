@@ -24,23 +24,23 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: install uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+
       - name: initenv 
         run: scripts/initenv.sh
 
-      - name: append venv/bin to PATH
-        run: echo `pwd`/venv/bin >>$GITHUB_PATH
-
       - name: build documentation 
         working-directory: doc
-        run: sphinx-build source build
+        run: uv run --project .. --group docs sphinx-build source build
 
       - name: build documentation second time (for TOC)
         working-directory: doc
-        run: sphinx-build source build
+        run: uv run --project .. --group docs sphinx-build source build
 
       - name: check links 
         working-directory: doc
-        run: sphinx-build --builder linkcheck source build
+        run: uv run --project .. --group docs sphinx-build --builder linkcheck source build
 
       - name: upload documentation
         run: |

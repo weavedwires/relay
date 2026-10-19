@@ -1,29 +1,19 @@
 #!/bin/sh
 set -e
 
-if command -v lsb_release 2>&1 >/dev/null; then
-  case "$(lsb_release -is)" in
-    Ubuntu | Debian )
-      if ! dpkg -l | grep python3-dev 2>&1 >/dev/null
-      then
-        echo "You need to install python3-dev for installing the other dependencies."
-        exit 1
-      fi
-      if ! gcc --version 2>&1 >/dev/null
-      then
-        echo "You need to install gcc for building Python dependencies."
-        exit 1
-      fi
-      ;;
-  esac
+if ! command -v uv >/dev/null 2>&1; then
+  echo "uv is required to set up the development environment." >&2
+  echo "Install it from https://docs.astral.sh/uv/getting-started/installation/" >&2
+  exit 1
 fi
 
-python3 -m venv --upgrade-deps venv
+if ! command -v gcc >/dev/null 2>&1; then
+  echo "WARNING: gcc not found; if a dependency needs to be built," >&2
+  echo "install the build tools with: sudo apt install build-essential" >&2
+fi
 
 # an editable install puts src/ on sys.path, so a leftover egg-info there is
 # found as a second distribution and keeps removed entry points registered
 rm -rf chatmaild/src/*.egg-info cmdeploy/src/*.egg-info
 
-venv/bin/pip install -e chatmaild 
-venv/bin/pip install -e cmdeploy
-venv/bin/pip install sphinx sphinxcontrib-mermaid sphinx-autobuild furo  # for building the docs
+uv sync --all-groups

@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Wrapper for cmdelpoy to run it in activated virtualenv.
+# Wrapper for cmdeploy to run it in the uv-managed environment.
 set -e
-. venv/bin/activate
-cmdeploy "$@"
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+exec uv run --project "$ROOT" cmdeploy "$@"

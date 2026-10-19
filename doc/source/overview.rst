@@ -15,11 +15,11 @@ has four main directories.
 :repodir:`scripts`
 offers two convenience tools for beginners:
 
-- ``initenv.sh`` installs a local virtualenv Python environment and
-  installs necessary dependencies
+- ``initenv.sh`` creates a local Python environment with uv and
+  installs the necessary dependencies
 
 - ``scripts/cmdeploy`` script enables you to run the ``cmdeploy``
-  command line tool in the local Python virtual environment.
+  command line tool in the local Python environment.
 
 
 ``cmdeploy/``
