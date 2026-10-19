@@ -123,6 +123,9 @@ celerybeat.pid
 # SageMath parsed files
 *.sage.py
 
+# uv lockfile is generated locally and not committed
+uv.lock
+
 # Environments
 .env
 .venv

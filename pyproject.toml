@@ -1,0 +1,27 @@
+[project]
+name = "chatmail-relay"
+version = "0"
+description = "Development environment for the chatmail relay repository"
+requires-python = ">=3.11"
+dependencies = [
+  "chatmaild",
+  "cmdeploy",
+]
+
+[tool.uv]
+package = false
+
+[tool.uv.sources]
+chatmaild = { workspace = true }
+cmdeploy = { workspace = true }
+
+[tool.uv.workspace]
+members = ["chatmaild", "cmdeploy"]
+
+[dependency-groups]
+docs = [
+  "sphinx",
+  "sphinxcontrib-mermaid",
+  "sphinx-autobuild",
+  "furo",
+]
