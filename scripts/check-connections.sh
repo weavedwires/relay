@@ -5,20 +5,27 @@
 # settings in chatmail.ini.  Run this on the relay itself.
 set -e
 
+# The script reads system-wide process and session information,
+# so run privileged commands through sudo when not running as root.
+SUDO=
+if [ "$(id -u)" -ne 0 ]; then
+    SUDO=sudo
+fi
+
 # Count established TCP connections whose local port is one of the arguments.
 established() {
     filter=$(printf 'sport = :%s or ' "$@")
-    ss -Htn state established "( ${filter% or } )" | wc -l
+    $SUDO ss -Htn state established "( ${filter% or } )" | wc -l
 }
 
 # doveadm prints a header line and then one line per logged-in user,
 # with that user's number of connections in the second column.
-sessions=$(doveadm who | awk 'NR > 1 { n += $2 } END { print n + 0 }')
+sessions=$($SUDO doveadm who | awk 'NR > 1 { n += $2 } END { print n + 0 }')
 
 # Unless imap_compress is enabled, connections idle for
 # imap_hibernate_timeout are handed over to the imap-hibernate
 # process, so they cost no imap process while idle.
-active=$(pgrep -x imap | wc -l)
+active=$($SUDO pgrep -x imap | wc -l)
 
 printf 'imap        %6d  ports 143,993   (max_imap_connections)\n' "$(established 143 993)"
 printf '            %6d  dovecot sessions, %d of them in an active imap process\n' "$sessions" "$active"
