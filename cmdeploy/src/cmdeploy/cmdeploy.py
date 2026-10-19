@@ -93,11 +93,34 @@ def _warn_unused_settings(unused_keys, out):
         )
 
 
+def get_ssh_target(ssh_host: str, config) -> tuple[str, str]:
+    """Return ``(host, user)`` for an SSH target, honoring ``user@host``."""
+    if ssh_host in ("localhost", "@local"):
+        return ssh_host, config.ssh_user
+    if "@" in ssh_host:
+        user, host = ssh_host.rsplit("@", 1)
+        return host, user
+    return ssh_host, config.ssh_user
+
+
+def build_pyinfra_command(pyinfra_cmd, ssh_host, ssh_user, deploy_path) -> str:
+    """Build the pyinfra command line for local or remote deployment."""
+    if ssh_host in ("localhost", "@local"):
+        sudo = " --sudo" if os.geteuid() != 0 else ""
+        return f"{pyinfra_cmd}{sudo} @local {deploy_path} -y"
+
+    sudo = " --sudo" if ssh_user != "root" else ""
+    return f"{pyinfra_cmd} --ssh-user {ssh_user}{sudo} {ssh_host} {deploy_path} -y"
+
+
 def run_cmd(args, out):
     """Deploy chatmail services on the remote server."""
 
-    ssh_host = args.ssh_host if args.ssh_host else args.config.mail_domain_bare
-    sshexec = get_sshexec(ssh_host)
+    ssh_host, ssh_user = get_ssh_target(
+        args.ssh_host if args.ssh_host else args.config.mail_domain_bare,
+        args.config,
+    )
+    sshexec = get_sshexec(ssh_host, ssh_user=ssh_user)
     require_iroh = args.config.enable_iroh_relay
     strict_tls = args.config.tls_cert_mode == "acme"
     if args.config.ipv4_relay:
@@ -115,9 +138,7 @@ def run_cmd(args, out):
     deploy_path = importlib.resources.files(__package__).joinpath("run.py").resolve()
     pyinf = "pyinfra --dry" if args.dry_run else "pyinfra"
 
-    cmd = f"{pyinf} --ssh-user root {ssh_host} {deploy_path} -y"
-    if ssh_host == "localhost":
-        cmd = f"{pyinf} @local {deploy_path} -y"
+    cmd = build_pyinfra_command(pyinf, ssh_host, ssh_user, deploy_path)
 
     if version.parse(pyinfra.__version__) < version.parse("3"):
         out.red("Please re-run scripts/initenv.sh to update pyinfra to version 3.")
@@ -158,8 +179,11 @@ def dns_cmd(args, out):
         ipv4 = args.config.ipv4_relay
         print(f"[WARNING] {ipv4} is not a domain, skipping DNS checks.")
         return 0
-    ssh_host = args.ssh_host if args.ssh_host else args.config.mail_domain
-    sshexec = get_sshexec(ssh_host, verbose=args.verbose)
+    ssh_host, ssh_user = get_ssh_target(
+        args.ssh_host if args.ssh_host else args.config.mail_domain,
+        args.config,
+    )
+    sshexec = get_sshexec(ssh_host, verbose=args.verbose, ssh_user=ssh_user)
     tls_cert_mode = args.config.tls_cert_mode
     strict_tls = tls_cert_mode == "acme"
     remote_data = dns.get_initial_remote_data(sshexec, args.config.mail_domain)
@@ -195,8 +219,11 @@ def status_cmd_options(parser):
 def status_cmd(args, out):
     """Display status for online chatmail instance."""
 
-    ssh_host = args.ssh_host if args.ssh_host else args.config.mail_domain_bare
-    sshexec = get_sshexec(ssh_host, verbose=args.verbose)
+    ssh_host, ssh_user = get_ssh_target(
+        args.ssh_host if args.ssh_host else args.config.mail_domain_bare,
+        args.config,
+    )
+    sshexec = get_sshexec(ssh_host, verbose=args.verbose, ssh_user=ssh_user)
 
     out.green(f"chatmail domain: {args.config.mail_domain}")
     if args.config.privacy_mail:
@@ -217,6 +244,7 @@ def test_cmd(args, out):
 
     env = os.environ.copy()
     env["CHATMAIL_INI"] = str(args.inipath.absolute())
+    env["CHATMAIL_SSH_USER"] = args.config.ssh_user
     if args.ssh_host:
         env["CHATMAIL_SSH"] = args.ssh_host
 
@@ -322,7 +350,7 @@ def add_ssh_host_option(parser):
         "--ssh-host",
         dest="ssh_host",
         help="Run commands on 'localhost' or on a specific SSH host "
-        "instead of chatmail.ini's mail_domain.",
+        "instead of chatmail.ini's mail_domain. May be given as [user@]host.",
     )
 
 
@@ -381,12 +409,16 @@ def get_parser():
     return parser
 
 
-def get_sshexec(ssh_host: str, verbose=True):
+def get_sshexec(ssh_host: str, verbose=True, ssh_user=None):
     if ssh_host in ["localhost", "@local"]:
         return LocalExec(verbose)
+    if ssh_user is None:
+        ssh_user = os.environ.get("CHATMAIL_SSH_USER", "root")
+    if "@" in ssh_host:
+        ssh_user, ssh_host = ssh_host.rsplit("@", 1)
     if verbose:
-        print(f"[ssh] login to {ssh_host}")
-    return SSHExec(ssh_host, verbose=verbose)
+        print(f"[ssh] login to {ssh_user}@{ssh_host}")
+    return SSHExec(ssh_host, verbose=verbose, ssh_user=ssh_user)
 
 
 def main(args=None):

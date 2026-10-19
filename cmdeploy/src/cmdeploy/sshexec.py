@@ -18,8 +18,21 @@ def bootstrap_remote(gateway, remote=remote):
     basedir = os.path.dirname(source_init_path)
     name = os.path.basename(basedir)
 
+    # Store the remote package in the SSH user's home instead of /root so
+    # deployment also works for a non-root user with sudo.
+    home_channel = gateway.remote_exec(
+        "import os; channel.send(os.path.expanduser('~'))"
+    )
+    remote_home = home_channel.receive()
+    home_channel.waitclose()
+    remote_pkg_path = f"{remote_home}/.cache/cmdeploy/from-cmdeploy/{name}"
+    parent_dir = os.path.dirname(remote_pkg_path)
+    mkdir_channel = gateway.remote_exec(
+        f"import os; os.makedirs({parent_dir!r}, mode=0o700, exist_ok=True)"
+    )
+    mkdir_channel.waitclose()
+
     # rsync sourcedir to remote host
-    remote_pkg_path = f"/root/from-cmdeploy/{name}"
     q = Queue()
     finish = lambda: q.put(None)
     rsync = execnet.RSync(sourcedir=basedir, verbose=False)
@@ -49,11 +62,14 @@ class SSHExec:
     RemoteError = execnet.RemoteError
     FuncError = FuncError
 
-    def __init__(self, host, verbose=False, python="python3", timeout=60):
-        self.gateway = execnet.makegateway(f"ssh=root@{host}//python={python}")
+    def __init__(
+        self, host, verbose=False, python="python3", timeout=60, ssh_user="root"
+    ):
+        self.gateway = execnet.makegateway(f"ssh={ssh_user}@{host}//python={python}")
         self._remote_cmdloop_channel = bootstrap_remote(self.gateway, remote)
         self.timeout = timeout
         self.verbose = verbose
+        self.ssh_user = ssh_user
 
     def __call__(self, call, kwargs=None, log_callback=None):
         if kwargs is None:

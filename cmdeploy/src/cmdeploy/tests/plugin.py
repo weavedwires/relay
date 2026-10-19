@@ -43,6 +43,7 @@ def _get_chatmail_config():
 def chatmail_config(pytestconfig):
     config, path = _get_chatmail_config()
     if config:
+        os.environ.setdefault("CHATMAIL_SSH_USER", config.ssh_user)
         return config
     basedir = Path().resolve()
     pytest.skip(f"no chatmail.ini file found in {basedir} or parent dirs")
@@ -408,15 +409,20 @@ def remote(sshdomain):
 class Remote:
     def __init__(self, sshdomain):
         self.sshdomain = sshdomain
+        self.ssh_user = os.environ.get("CHATMAIL_SSH_USER", "root")
+        if self.sshdomain not in ("@local", "localhost") and "@" in self.sshdomain:
+            self.ssh_user, self.sshdomain = self.sshdomain.rsplit("@", 1)
         self._procs = []
 
     def iter_output(self, logcmd="", ready=None):
         getjournal = "journalctl -f" if not logcmd else logcmd
         print(self.sshdomain)
         if self.sshdomain in ("@local", "localhost"):
-            command = []
+            command = ["sudo", "-n"] if os.geteuid() != 0 else []
         else:
-            command = ["ssh", f"root@{self.sshdomain}"]
+            command = ["ssh", f"{self.ssh_user}@{self.sshdomain}"]
+            if self.ssh_user != "root":
+                getjournal = f"sudo -n {getjournal}"
         [command.append(arg) for arg in getjournal.split()]
         popen = subprocess.Popen(
             command,

@@ -58,6 +58,7 @@ class Config:
         self.doveauth_http_port = int(params.pop("doveauth_http_port", "10084"))
         self.mtail_address = params.pop("mtail_address", None)
         self.disable_ipv6 = params.pop("disable_ipv6", "false").lower() == "true"
+        self.ssh_user = params.pop("ssh_user", "root").strip() or "root"
         self.acme_email = params.pop("acme_email", "")
         self.imap_rawlog = params.pop("imap_rawlog", "false").lower() == "true"
         self.imap_compress = params.pop("imap_compress", "false").lower() == "true"

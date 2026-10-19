@@ -47,7 +47,13 @@ def test_read_config_basic_using_defaults(tmp_path, example_maildomain):
     assert example_config.password_min_length == 9
     assert example_config.max_imap_connections == 10000
     assert example_config.max_smtp_connections == 1000
+    assert example_config.ssh_user == "root"
     assert example_config._unused_keys == []
+
+
+def test_config_ssh_user(make_config):
+    config = make_config("chat.example.org", {"ssh_user": "deploy"})
+    assert config.ssh_user == "deploy"
 
 
 def test_config_unused_keys(make_config):

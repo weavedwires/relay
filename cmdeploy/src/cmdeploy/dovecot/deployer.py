@@ -113,7 +113,7 @@ def _download_dovecot_package(package: str, arch: str) -> tuple[str | None, bool
     primary_url = f"https://download.delta.chat/dovecot/{deb_base}"
     fallback_url = f"https://github.com/chatmail/dovecot/releases/download/upstream%2F{url_version}/{deb_base}"
     url = _pick_url(primary_url, fallback_url)
-    deb_filename = f"/root/{deb_base}"
+    deb_filename = f"/usr/local/lib/chatmaild/dist/{deb_base}"
 
     files.download(
         name=f"Download {pkg_name}",

@@ -112,7 +112,9 @@ def test_download_dovecot_package_uses_archive_version_for_url_and_filename(
     deb, changed = dovecot_deployer._download_dovecot_package("core", "amd64")
 
     archive_version = dovecot_deployer.DOVECOT_VERSION.replace("+", "%2B")
-    expected_deb = f"/root/dovecot-core_{archive_version}_amd64.deb"
+    expected_deb = (
+        f"/usr/local/lib/chatmaild/dist/dovecot-core_{archive_version}_amd64.deb"
+    )
 
     # Verify the returned path uses archive version, not package version (with epoch)
     assert changed is True, "should flag changed when package not yet installed"

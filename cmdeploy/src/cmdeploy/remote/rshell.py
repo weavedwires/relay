@@ -1,3 +1,5 @@
+import os
+import shlex
 import sys
 from subprocess import DEVNULL, CalledProcessError, check_output
 
@@ -7,13 +9,19 @@ def log_progress(data):
     sys.stderr.flush()
 
 
+def _with_sudo(command):
+    if os.geteuid() == 0:
+        return command
+    return f"sudo -n sh -c {shlex.quote(command)}"
+
+
 def shell(command, fail_ok=False, print=print):
     print(f"$ {command}")
     args = dict(shell=True)
     if fail_ok:
         args["stderr"] = DEVNULL
     try:
-        return check_output(command, **args).decode().rstrip()
+        return check_output(_with_sudo(command), **args).decode().rstrip()
     except CalledProcessError:
         if not fail_ok:
             raise
@@ -26,8 +34,9 @@ def get_systemd_running():
 
 
 def write_numbytes(path, num):
-    with open(path, "w") as f:
-        f.write("x" * num)
+    shell(
+        f"dd if=/dev/zero of={shlex.quote(str(path))} bs=1 count={int(num)} status=none"
+    )
 
 
 def dovecot_recalc_quota(user):

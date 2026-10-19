@@ -1,9 +1,15 @@
 import importlib
 import os
+from types import SimpleNamespace
 
 import pytest
 
-from cmdeploy.cmdeploy import get_parser, main
+from cmdeploy.cmdeploy import (
+    build_pyinfra_command,
+    get_parser,
+    get_ssh_target,
+    main,
+)
 from cmdeploy.www import get_paths
 
 
@@ -46,6 +52,43 @@ class TestCmdline:
         assert main(["dns", "--config", str(inipath)]) == 0
         out, err = capsys.readouterr()
         assert out == "[WARNING] 1.3.3.7 is not a domain, skipping DNS checks.\n"
+
+
+def test_get_ssh_target():
+    config = SimpleNamespace(ssh_user="root")
+    assert get_ssh_target("chat.example.org", config) == ("chat.example.org", "root")
+    assert get_ssh_target("deploy@chat.example.org", config) == (
+        "chat.example.org",
+        "deploy",
+    )
+    assert get_ssh_target("localhost", config) == ("localhost", "root")
+
+    config.ssh_user = "deploy"
+    assert get_ssh_target("chat.example.org", config) == ("chat.example.org", "deploy")
+
+
+def test_build_pyinfra_command(monkeypatch):
+    deploy_path = "/tmp/run.py"
+    assert (
+        build_pyinfra_command("pyinfra", "chat.example.org", "root", deploy_path)
+        == "pyinfra --ssh-user root chat.example.org /tmp/run.py -y"
+    )
+    assert (
+        build_pyinfra_command("pyinfra", "chat.example.org", "deploy", deploy_path)
+        == "pyinfra --ssh-user deploy --sudo chat.example.org /tmp/run.py -y"
+    )
+
+    monkeypatch.setattr("cmdeploy.cmdeploy.os.geteuid", lambda: 1000)
+    assert (
+        build_pyinfra_command("pyinfra", "localhost", "root", deploy_path)
+        == "pyinfra --sudo @local /tmp/run.py -y"
+    )
+
+    monkeypatch.setattr("cmdeploy.cmdeploy.os.geteuid", lambda: 0)
+    assert (
+        build_pyinfra_command("pyinfra", "localhost", "deploy", deploy_path)
+        == "pyinfra @local /tmp/run.py -y"
+    )
 
 
 def test_www_folder(example_config, tmp_path):

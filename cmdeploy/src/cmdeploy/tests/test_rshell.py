@@ -1,6 +1,34 @@
 from unittest.mock import patch
 
-from cmdeploy.remote.rshell import dovecot_recalc_quota
+from cmdeploy.remote.rshell import dovecot_recalc_quota, shell
+
+
+def test_shell_uses_sudo_for_non_root(monkeypatch):
+    calls = []
+
+    def fake_check_output(command, **kwargs):
+        calls.append(command)
+        return b"ok"
+
+    monkeypatch.setattr("cmdeploy.remote.rshell.os.geteuid", lambda: 1000)
+    monkeypatch.setattr("cmdeploy.remote.rshell.check_output", fake_check_output)
+
+    assert shell("apt-get update && apt-get install -y dnsutils") == "ok"
+    assert calls == ["sudo -n sh -c 'apt-get update && apt-get install -y dnsutils'"]
+
+
+def test_shell_does_not_use_sudo_for_root(monkeypatch):
+    calls = []
+
+    def fake_check_output(command, **kwargs):
+        calls.append(command)
+        return b"ok"
+
+    monkeypatch.setattr("cmdeploy.remote.rshell.os.geteuid", lambda: 0)
+    monkeypatch.setattr("cmdeploy.remote.rshell.check_output", fake_check_output)
+
+    assert shell("systemctl --type=service") == "ok"
+    assert calls == ["systemctl --type=service"]
 
 
 def test_dovecot_recalc_quota_normal_output():

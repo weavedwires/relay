@@ -86,6 +86,10 @@ mail_domain = {mail_domain}
 # if set to "True" IPv6 is disabled
 #disable_ipv6 = False
 
+# SSH user used for deployment. Defaults to "root".
+# For a non-root user, it must have passwordless sudo.
+#ssh_user = root
+
 # Your email adress, which will be used in acmetool to manage Let's Encrypt SSL certificates
 #acme_email =
 
